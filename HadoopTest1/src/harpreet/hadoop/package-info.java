@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author Harpreet
+ * @author Harpreet Singh
  *
  */
-package harpreet.hadoop.a1;
+package harpreet.hadoop;
