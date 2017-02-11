@@ -266,8 +266,8 @@ public class TwitterWhoToFollow {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
     	
     	String inputDir = "/Users/Harpreet/gitTest2/HadoopTest1/input";
-    	String outputTempDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/temp4";
-    	String outputFinalDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/final4";
+    	String outputTempDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/temp5";
+    	String outputFinalDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/final5";
 
         Configuration conf = new Configuration();
         Job job1 = Job.getInstance(conf, "twitter1");
