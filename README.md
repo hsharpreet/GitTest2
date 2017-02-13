@@ -17,21 +17,12 @@ and sorts the resulting recommendations by number of common followed people.
 
 Example:
 This algorithm needs input like this in a text file
-
-  1 345
-  2 135 
-  3 1245 
-  4 1235 
-  5 3
+  1 345, 2-135, 3-1245, 4-1235, 5-3
 
 as this file says:
 friend1 follows friend3,friend4,friend5 and so on with other friends
 It will give output like:
-  1 2(2)
-  2 4(3)
-  3
-  4
-  5 2(1) 1(1) 4(1)
+  1-2(2), 2-4(3), 3 ,4 , 5-2(1) 1(1) 4(1)
 
 which means friend2 is recommended to friend1 twice. List of recommended friends will be sorted 
 according to higher number of recommendations
