@@ -17,7 +17,7 @@ and sorts the resulting recommendations by number of common followed people.
 
 Example:
 This algorithm needs input like this in a text file
-  1 345, 2-135, 3-1245, 4-1235, 5-3
+  1-345, 2-135, 3-1245, 4-1235, 5-3
 
 as this file says:
 friend1 follows friend3,friend4,friend5 and so on with other friends
