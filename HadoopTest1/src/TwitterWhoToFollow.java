@@ -1,8 +1,10 @@
-package harpreet.hadoop;
+
+
 /*
  * Author
  * Harpreet Singh
  */
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -221,8 +223,6 @@ public class TwitterWhoToFollow {
                     existingFriends.add(value);
                 }
             }
-            System.out.println(recommendedUsers);
-            System.out.println(existingFriends);
             // 'recommendedUsers' now contains all the positive values in 'values'.
             // We need to remove from it every value -x where x is in existingFriends.
             // See javadoc on Predicate: https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html
@@ -265,34 +265,75 @@ public class TwitterWhoToFollow {
 
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
     	
-    	String inputDir = "/Users/Harpreet/gitTest2/HadoopTest1/input";
-    	String outputTempDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/temp4";
-    	String outputFinalDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/final4";
 
-        Configuration conf = new Configuration();
-        Job job1 = Job.getInstance(conf, "twitter1");
-        job1.setJarByClass(TwitterWhoToFollow.class);
-        job1.setMapperClass(TwitterMapper1.class);
-        job1.setReducerClass(TwitterReducer1.class);
-        job1.setOutputKeyClass(IntWritable.class);
-        job1.setOutputValueClass(IntWritable.class);
-        FileInputFormat.addInputPath(job1, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job1, new Path(outputTempDir));
-      //  System.exit(job1.waitForCompletion(true) ? 0 : 1);
-        
-        //Complete the first job 
-        boolean success = job1.waitForCompletion(true);
-        if (success) {
-	        Job job2 = Job.getInstance(conf, "twitter2");
-	        job2.setJarByClass(TwitterWhoToFollow.class);
-	        job2.setMapperClass(TwitterMapper2.class);
-	        job2.setReducerClass(TwitterReducer2.class);
-	        job2.setOutputKeyClass(IntWritable.class);
-	        job2.setOutputValueClass(IntWritable.class);
-	        FileInputFormat.addInputPath(job2, new Path(outputTempDir));
-	        FileOutputFormat.setOutputPath(job2, new Path(outputFinalDir));
-	        System.exit(job2.waitForCompletion(true) ? 0 : 1);
-        }
+    	String inputDir = "";
+    	String outputTempDir = "";
+    	String outputFinalDir = "";
+
+    	try{
+    		//Parameters are provided? we need 3 parameters.
+        	if(args.length>0 && args.length>=3){
+        		System.out.println("Using command line arguments");
+        		inputDir= args[0];
+        		outputTempDir = args[1];
+        		outputFinalDir= args[2];
+        	}else /*if(args.length<3)*/{
+        		//Checking if the correct length of Parameters are passed or not
+        		System.out.println("Less than ZERO or THREE Parameters?\n"
+        				+ "Please provide parameters as:\n"
+        				+ "Input-File.txt OutputFolder1 OutputFolder2");
+        		System.out.println("Existing...");
+        		System.exit(0);
+        	}/*else{
+        		System.out.println("Using hard coded file paths");
+            	inputDir = "/Users/Harpreet/gitTest2/HadoopTest1/input/twi.text";
+            	outputTempDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/temp0";
+            	outputFinalDir = "/Users/Harpreet/gitTest2/HadoopTest1/output/final0";
+        	}*/
+        	
+        	System.out.println("\n\n=================================");
+        	System.out.println("Input file: "+inputDir);
+        	System.out.println("Result: intermediate path: "+outputTempDir);
+        	System.out.println("Result: final path: "+outputFinalDir);
+        	System.out.println("==================================\n\n");
+
+        	//checking if input file is available?
+        	File f = new File(inputDir);
+        	if(!f.exists()){
+        		System.out.println("\n\nInput file at "+inputDir+" does not exist!");
+        		System.out.println("Existing...");
+        		System.exit(0);
+        	}
+        	
+            Configuration conf = new Configuration();
+            Job job1 = Job.getInstance(conf, "twitter1");
+            job1.setJarByClass(TwitterWhoToFollow.class);
+            job1.setMapperClass(TwitterMapper1.class);
+            job1.setReducerClass(TwitterReducer1.class);
+            job1.setOutputKeyClass(IntWritable.class);
+            job1.setOutputValueClass(IntWritable.class);
+            FileInputFormat.addInputPath(job1, new Path(args[0]));
+            FileOutputFormat.setOutputPath(job1, new Path(outputTempDir));
+            
+            //Check and complete the first job 
+            boolean success = job1.waitForCompletion(true);
+            if (success) {
+    	        Job job2 = Job.getInstance(conf, "twitter2");
+    	        job2.setJarByClass(TwitterWhoToFollow.class);
+    	        job2.setMapperClass(TwitterMapper2.class);
+    	        job2.setReducerClass(TwitterReducer2.class);
+    	        job2.setOutputKeyClass(IntWritable.class);
+    	        job2.setOutputValueClass(IntWritable.class);
+    	        FileInputFormat.addInputPath(job2, new Path(outputTempDir));
+    	        FileOutputFormat.setOutputPath(job2, new Path(outputFinalDir));
+    	        System.exit(job2.waitForCompletion(true) ? 0 : 1);
+            }
+    	}
+    	catch(Exception e){
+    		System.out.println("\n\n\nThere was some problem running this program. Please contact the Author.");
+    		System.out.println("Error message: "+e.getMessage());
+    		System.out.println("Error stacktrace: "+e.getStackTrace());
+    	}
     }
 
 }
