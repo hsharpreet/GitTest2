@@ -55,5 +55,5 @@ and pass these variables in the file path functions like:
        
 
 Thanks,
-Harpreet Singh - 40012679
-Nitesh Kumar - 40038811
+Harpreet Singh
+hs.harpreet101@gmail.com 
